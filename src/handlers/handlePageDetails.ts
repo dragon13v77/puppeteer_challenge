@@ -28,7 +28,7 @@ export async function handlePageDetails(data: ProductItem[], page: Page) {
       await page.goto(itemLink);
       await sleep(4000);
       const pageDetails = await extractPageDetails(page);
-      pageDetails && await saveProductDetails(data, pageDetails, index);
+      pageDetails && (await saveProductDetails(data, pageDetails, index));
       index++;
     }
   } catch (error) {

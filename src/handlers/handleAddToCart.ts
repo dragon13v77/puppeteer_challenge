@@ -1,6 +1,13 @@
 import { Page } from "puppeteer-extra-plugin/dist/puppeteer";
 
-import { itemOptionsElementSelector, itemVariationSelector, optionsElementSelector } from "../constants";
+import {
+  addToBasketButtonSelector,
+  continueAsGuestButtonSelector,
+  itemOptionsElementSelector,
+  itemVariationSelector,
+  optionsElementSelector,
+  proceedToCheckoutButtonSelector,
+} from "../constants";
 import { getRandomProductItem, getRandomProductItemOption, randomIntFromInterval, sleep } from "../utils";
 import { ProductItem } from "../types";
 
@@ -74,7 +81,7 @@ async function goToProductPage(productItem: ProductItem, page: Page) {
 
 async function handleAddTobasket(page: Page) {
   try {
-    const addToBasketButton = await page.$("[data-add-to-cart-button] button");
+    const addToBasketButton = await page.$(addToBasketButtonSelector);
     await addToBasketButton?.click({ delay: randomIntFromInterval(600, 1000) });
   } catch (error) {
     console.error("Error handling add to basket", error);
@@ -85,11 +92,11 @@ async function handleProceedToCheckout(page: Page) {
   try {
     console.log("processing add to cart.");
 
-    const proceedToCheckoutButton = await page.$("button.proceed-to-checkout");
+    const proceedToCheckoutButton = await page.$(proceedToCheckoutButtonSelector);
     await proceedToCheckoutButton?.click({ delay: randomIntFromInterval(600, 1000) });
     await sleep(4000);
 
-    const continueAsGuestButton = await page.$("#join-neu-continue-as-guest button");
+    const continueAsGuestButton = await page.$(continueAsGuestButtonSelector);
     await continueAsGuestButton?.click({ delay: randomIntFromInterval(600, 1000) });
     await page.waitForNavigation();
     await sleep(1000);

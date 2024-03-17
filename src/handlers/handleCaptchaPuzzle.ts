@@ -5,7 +5,7 @@ import pixelmatch from "pixelmatch";
 import { cv } from "opencv-wasm";
 
 import { sleep } from "../utils";
-import { imagesFilePath } from "../constants";
+import { captchaSliderSelector, imagesFilePath } from "../constants";
 import { CaptchaImages } from "../types";
 
 export async function handleCaptcha(page: Page) {
@@ -40,8 +40,8 @@ export async function handleCaptcha(page: Page) {
     await diffImage.writeAsync(`${imagesFilePath}diff.png`);
     console.log("Diff image created");
 
-    await frameContent.waitForSelector(".sliderContainer div.slider", { timeout: 5000 });
-    const slider = await frameContent.$(".sliderContainer div.slider");
+    await frameContent.waitForSelector(captchaSliderSelector, { timeout: 5000 });
+    const slider = await frameContent.$(captchaSliderSelector);
     await sleep(500);
     let bounding_box = await slider?.boundingBox();
     if (bounding_box) {

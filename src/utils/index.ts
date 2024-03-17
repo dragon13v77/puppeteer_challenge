@@ -12,6 +12,7 @@ export const initBrowserPage = async () => {
     ignoreDefaultArgs: ["--enable-automation"],
   });
   const page = await browser.newPage();
+  
   return { page, browser };
 };
 

@@ -1,6 +1,7 @@
 import { Page } from "puppeteer-extra-plugin/dist/puppeteer";
 
 import { sleep } from "../utils";
+import { captchaSliderSelector } from "../constants";
 
 export async function handleCaptcha(page: Page) {
   try {
@@ -8,8 +9,8 @@ export async function handleCaptcha(page: Page) {
     const frame = await page.waitForSelector("iframe");
     const frameContent = await frame?.contentFrame();
 
-    await frameContent?.waitForSelector(".sliderContainer div.slider", { timeout: 5000 });
-    const slider = await frameContent?.$(".sliderContainer div.slider");
+    await frameContent?.waitForSelector(captchaSliderSelector, { timeout: 5000 });
+    const slider = await frameContent?.$(captchaSliderSelector);
 
     await sleep(500);
     let bounding_box = await slider?.boundingBox();

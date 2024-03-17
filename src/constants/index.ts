@@ -4,7 +4,7 @@ import { randomIntFromInterval } from "../utils";
 // config parameters
 export const siteUrl = "https://www.etsy.com";
 export const itemsCount = 10;
-export const searchPhrase = "mans shoes size " + randomIntFromInterval(5, 50);
+export const searchPhrase = "men's sneakers size " + randomIntFromInterval(3, 15);
 export const jsonFilePath = "./storage/productsData/data.json";
 export const imagesFilePath = "./storage/images/";
 export const userAgent =

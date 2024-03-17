@@ -29,6 +29,6 @@ export async function handleCaptcha(page: Page) {
     await frame?.dispose();
     await slider?.dispose();
   } catch (error) {
-    console.error("Captcha not found, continuing regularry.", error);
+    console.error("Captcha not found, continuing regularly.");
   }
 }

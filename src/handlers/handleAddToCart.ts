@@ -12,6 +12,8 @@ import { getRandomProductItem, getRandomProductItemOption, randomIntFromInterval
 import { ProductItem } from "../types";
 
 export async function handleAddToCart(page: Page) {
+  console.log("Processing add to cart.");
+
   try {
     const randomProductItem = await getRandomProductItem();
 
@@ -31,26 +33,33 @@ export async function handleAddToCart(page: Page) {
   }
 }
 
-async function getItemOptions(page: Page) {
+async function getItemOptionsCount(page: Page) {
   try {
     const itemOptionsElement = await page.$(itemOptionsElementSelector);
     const optionsElements = await itemOptionsElement?.$$(optionsElementSelector);
+    const count = optionsElements?.length ?? 0;
     await itemOptionsElement?.dispose();
+    if (optionsElements) {
+      for (let index = 0; index < count; index++) {
+        await optionsElements[index].dispose();
+      }
+    }
 
-    return optionsElements;
+    return count;
   } catch (error) {
     console.error("Error getting item options", error);
+    return 0;
   }
 }
 
 async function selectOptions(productItem: ProductItem, page: Page) {
   try {
-    const itemOptions = await getItemOptions(page);
+    const itemOptionsCount = await getItemOptionsCount(page);
 
-    if (!itemOptions) {
-      throw new Error("Item options does not exists");
+    if (itemOptionsCount === 0) {
+      throw new Error("Item options does not exists.");
     }
-    for (let index = 0; index < itemOptions.length; index++) {
+    for (let index = 0; index < itemOptionsCount; index++) {
       const itemToSelect = getRandomProductItemOption(productItem, index);
       await sleep(3000);
       const selectElement = await page.$(`${itemVariationSelector}${index}`);
@@ -69,6 +78,8 @@ async function selectOptions(productItem: ProductItem, page: Page) {
 }
 
 async function goToProductPage(productItem: ProductItem, page: Page) {
+  console.log("Navigating to random product page.");
+
   try {
     if (!productItem.link) {
       throw new Error("Item link does not exist.");
@@ -90,8 +101,6 @@ async function handleAddTobasket(page: Page) {
 
 async function handleProceedToCheckout(page: Page) {
   try {
-    console.log("processing add to cart.");
-
     const proceedToCheckoutButton = await page.$(proceedToCheckoutButtonSelector);
     await proceedToCheckoutButton?.click({ delay: randomIntFromInterval(600, 1000) });
     await sleep(4000);

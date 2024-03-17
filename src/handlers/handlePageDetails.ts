@@ -72,13 +72,16 @@ async function getOptionsElements(elementHandle: ElementHandle<Element>) {
 }
 
 async function extractItemVariations(page: Page) {
+  console.log("Extracting variation options.");
+
   const options: VariationOption[][] = [];
 
   try {
-    console.log("Extracting variation options.");
     const optionsElements = await getItemOptions(page);
 
     if (!optionsElements) return;
+
+    console.log(`Found ${optionsElements.length} variation options.`);
 
     for (let i = 0; i < optionsElements.length; i++) {
       const variationOptions: VariationOption[] = await optionsElements[i].$$eval(`${itemVariationSelector}${i} option`, (el) =>

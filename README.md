@@ -1,5 +1,9 @@
 # PUPPETEER CHALLENGE
 
+### Objective
+
+Create a Puppeteer script to automate data extraction and interaction with the given website. Script should navigate through the site, extract product information, and simulate a user journey from product discovery to checkout.
+
 ### Prerequisites
 
 - npm

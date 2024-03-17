@@ -10,10 +10,8 @@ import { handleCaptcha } from "./handlers/handleCaptcha";
 (async () => {
   const { page, browser } = await initBrowserPage();
   await page.goto(siteUrl);
-  await sleep(3000);
-
+  await sleep(4000);
   await handleCaptcha(page);
-
   await sleep(4000);
   await handleSearchInput(page);
   const productItems = await handleResultItems(page);

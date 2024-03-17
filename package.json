@@ -25,6 +25,8 @@
     "rimraf": "^5.0.0"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/pixelmatch": "^5.2.6",
     "typescript": "^5.4.2"
   }
 }

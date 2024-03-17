@@ -25,7 +25,6 @@ export const BrowserPageFactory = (async function () {
         const page = await browser.newPage();
 
         instance = new BrowserPageClass(browser, page);
-        instance.constructor = null;
       }
       return instance;
     },

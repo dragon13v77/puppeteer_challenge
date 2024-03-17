@@ -20,11 +20,15 @@ export async function handlePageDetails(data: ProductItem[], page: Page) {
     let index = 0;
     for (const item of data) {
       console.log("Processing product item ", index + 1);
+      const itemLink = item.link;
+      if (!itemLink) {
+        throw new Error("Item link does not exist");
+      }
       await sleep(3000);
-      await page.goto(item.link);
+      await page.goto(itemLink);
       await sleep(4000);
       const pageDetails = await extractPageDetails(page);
-      await saveProductDetails(data, pageDetails, index);
+      pageDetails && await saveProductDetails(data, pageDetails, index);
       index++;
     }
   } catch (error) {
@@ -33,11 +37,18 @@ export async function handlePageDetails(data: ProductItem[], page: Page) {
 }
 
 async function getItemOptions(page: Page) {
-  const itemOptionsElement = await getItemOptionsElement(page);
-  const optionsElements = await getOptionsElements(itemOptionsElement);
-  await itemOptionsElement.dispose();
+  try {
+    const itemOptionsElement = await getItemOptionsElement(page);
 
-  return optionsElements;
+    if (!itemOptionsElement) return;
+
+    const optionsElements = await getOptionsElements(itemOptionsElement);
+    await itemOptionsElement.dispose();
+
+    return optionsElements;
+  } catch (error) {
+    console.error("Error getting item options.", error);
+  }
 }
 
 async function getItemOptionsElement(page: Page) {
@@ -67,6 +78,8 @@ async function extractItemVariations(page: Page) {
     console.log("Extracting variation options.");
     const optionsElements = await getItemOptions(page);
 
+    if (!optionsElements) return;
+
     for (let i = 0; i < optionsElements.length; i++) {
       const variationOptions: VariationOption[] = await optionsElements[i].$$eval(`${itemVariationSelector}${i} option`, (el) =>
         el.map((option) => {
@@ -86,7 +99,7 @@ async function extractItemVariations(page: Page) {
   }
 }
 
-async function extractPageDetails(page: Page): Promise<ProductItem> {
+async function extractPageDetails(page: Page): Promise<ProductItem | undefined> {
   try {
     const title = await page.$eval(titleSelector, (el) => el.content);
     const description = await page.$eval(descriptionSelector, (el) => el.content);

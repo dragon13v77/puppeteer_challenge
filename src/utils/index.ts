@@ -45,16 +45,22 @@ export const saveProductDetails = async (data: ProductItem[], details: ProductIt
   }
 };
 
-export const getRandomProductItem = async () => {
-  const data: ProductItem[] = await fs.readJson(jsonFilePath);
-  const productItem = data[randomIntFromInterval(0, data.length - 1)];
-
+export const getRandomProductItem = async (): Promise<ProductItem | undefined> => {
+  let productItem: ProductItem | undefined = undefined;
+  try {
+    const data: ProductItem[] = await fs.readJson(jsonFilePath);
+    productItem = data[randomIntFromInterval(0, data.length - 1)];
+    return productItem;
+  } catch (error) {
+    console.error("Error retrieving product item from json data.", error);
+  }
   return productItem;
-  //return hardcodedProduct as ProductItem;
+
 };
 
 export const getRandomProductItemOption = (productItem: ProductItem, optionIndex: number) => {
-  const itemOptionIndex = randomIntFromInterval(1, productItem.options[optionIndex].length - 1);
+  const max = productItem.options ? productItem.options[optionIndex].length - 1 : 1;
+  const itemOptionIndex = randomIntFromInterval(1, max);
 
   return itemOptionIndex;
 };

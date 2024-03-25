@@ -9,7 +9,7 @@ import { handleCaptcha } from "./handlers/handleCaptcha";
 
 (async () => {
   const { page, browser } = await initBrowserPage();
-  await page.goto(siteUrl);
+  await page.goto(siteUrl, { waitUntil: "networkidle0" });
   await sleep(4000);
   await handleCaptcha(page);
   await sleep(4000);

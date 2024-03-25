@@ -30,6 +30,10 @@ Downloading and installing Node.js and npm instructions: https://nodejs.org/en/d
 
         npm run build
 
+4.  Start tests
+
+        npm test
+
 ### Usage
 
 1.  Start the script

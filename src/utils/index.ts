@@ -12,6 +12,7 @@ export const initBrowserPage = async () => {
     ignoreDefaultArgs: ["--enable-automation"],
   });
   const page = await browser.newPage();
+  await page.setViewport({ width: 1280, height: 800 })
   
   return { page, browser };
 };

@@ -41,14 +41,14 @@ export const continueToPaymentButonSelector = "#shipping-address-form button[dat
 
 // mocked guest user
 export const guestUser: GuestUser = {
-  email: "guest_user@test.com",
+  email: "mikamikovic_user@test.com",
   country: {
     id: 189,
     name: "Serbia",
   },
-  fullName: "Pera Peric",
-  streetAddress: "Ulica Nova",
-  city: "Novi Sad",
-  postalCode: "21000",
-  phoneNumber: "+381444555666",
+  fullName: "Mika Mikovic",
+  streetAddress: "Ulica Nova Prva",
+  city: "Beograd",
+  postalCode: "11000",
+  phoneNumber: "+381657466455",
 };
